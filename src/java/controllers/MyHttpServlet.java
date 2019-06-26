@@ -77,7 +77,7 @@ public class MyHttpServlet extends HttpServlet {
             out.print(c.getCcode()+" "+c.getCname());
             out.print("</p>");
         }
-        out.println("<p><a href='index.html'>Home</a></p>");
+        out.println("<p><a href='/ServletExamples'>Go Home</a></p>");
         out.println("</body>");
         out.println("</html>");
         

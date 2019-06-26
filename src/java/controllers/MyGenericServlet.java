@@ -11,9 +11,6 @@ import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -28,7 +25,7 @@ public class MyGenericServlet extends GenericServlet {
         PrintWriter out = res.getWriter();
         out.println("<html><body>");
         out.println("<h3>This is Second Servlet</h3>");
-        out.println("<p>Press to go to <a href='/First'>Home</a></p>");
+        out.println("<p><a href='/ServletExamples'>Go Home</a></p>");
         out.println("</html></body>");
     }
 

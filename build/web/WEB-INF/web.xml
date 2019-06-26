@@ -4,15 +4,15 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>First</servlet-name>
+        <servlet-name>MyServlet</servlet-name>
         <servlet-class>controllers.MyServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SecondServletName</servlet-name>
+        <servlet-name>MyGenericServlet</servlet-name>
         <servlet-class>controllers.MyGenericServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ThirdClass</servlet-name>
+        <servlet-name>MyHttpServlet</servlet-name>
         <servlet-class>controllers.MyHttpServlet</servlet-class>
     </servlet>
     <servlet>
@@ -31,17 +31,21 @@
         <servlet-name>DeleteCustomer</servlet-name>
         <servlet-class>controllers.DeleteCustomer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FormServlet</servlet-name>
+        <servlet-class>controllers.FormServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>First</servlet-name>
-        <url-pattern>/First</url-pattern>
+        <servlet-name>MyServlet</servlet-name>
+        <url-pattern>/MyServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SecondServletName</servlet-name>
-        <url-pattern>/SecondURL</url-pattern>
+        <servlet-name>MyGenericServlet</servlet-name>
+        <url-pattern>/MyGenericServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ThirdClass</servlet-name>
-        <url-pattern>/ThirdClass</url-pattern>
+        <servlet-name>MyHttpServlet</servlet-name>
+        <url-pattern>/MyHttpServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CustomerServlet</servlet-name>
@@ -58,6 +62,10 @@
     <servlet-mapping>
         <servlet-name>DeleteCustomer</servlet-name>
         <url-pattern>/DeleteCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FormServlet</servlet-name>
+        <url-pattern>/FormServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

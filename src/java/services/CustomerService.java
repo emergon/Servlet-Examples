@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class CustomerService {
 
+    public CustomerService(){
+        
+    }
+    
     public List<Customer> getCustomers() {
         CustomerDao cdao = new CustomerDao();
         return cdao.getCustomers();
@@ -33,6 +37,12 @@ public class CustomerService {
 //        builder.append("</body>")
 //                .append("</html>");
 //        return builder.toString();
+    }
+    
+    public boolean deleteCustomerById(int id){
+        CustomerDao cdao = new CustomerDao();
+        boolean deleted = cdao.deleteCustomerById(id);
+        return deleted;
     }
 
     public String getStringCustomers() {
@@ -55,6 +65,7 @@ public class CustomerService {
             builder.append("<tr>")
                     .append("<td>").append(c.getCcode()).append("</td>")
                     .append("<td>").append(c.getCname()).append("</td>")
+                    .append("<td>").append("<a href='http://localhost:8080/ServletExamples/Customers?method=delete&id=").append(c.getCcode()).append("'>Delete</a>").append("</td>")
                     .append("</tr>");
         }
         return builder.toString();

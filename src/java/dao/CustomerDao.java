@@ -27,13 +27,13 @@ public class CustomerDao {
 
     private Connection getConnection() {
         try {
-            //Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(URL, USERNAME, PASS);
         } catch (SQLException ex) {
             Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, ex);
-        }// catch (ClassNotFoundException ex) {
-//            Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return conn;
     }
 
@@ -136,6 +136,28 @@ public class CustomerDao {
             Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public boolean deleteCustomerById(int id) {
+        boolean deleted = false;
+        String sql = "DELETE FROM customers WHERE ccode = ?";
+        try {
+            PreparedStatement pst = getConnection().prepareStatement(sql);
+            pst.setInt(1, id);
+            int result = pst.executeUpdate();
+            if (result > 0) {
+                deleted = true;
+                System.out.println("Customer deleted successfully");
+            } else {
+                System.out.println("Customer not deleted");
+            }
+            pst.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return deleted;
+    }
+    
     
     public List<Customer> getCustomersProc() {
         List<Customer> list = new ArrayList();

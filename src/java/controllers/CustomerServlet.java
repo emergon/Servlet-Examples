@@ -8,8 +8,7 @@ package controllers;
 import entities.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,17 +60,36 @@ public class CustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        response.setContentType("text/html");
-//        response.setCharacterEncoding("UTF-8");
-//        try(PrintWriter out = response.getWriter()){
-//            out.println(getService().getStringCustomers());
-//        }
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        String message="";
+        Enumeration<String> en = request.getParameterNames();
+        while(en.hasMoreElements()){
+            String param = en.nextElement();
+            String value = request.getParameter(param);
+            if(param.equals("method")&&value.equals("delete")){
+                boolean deleted = getService().deleteCustomerById(Integer.parseInt(request.getParameter("id")));
+                if(deleted){
+                    message = "<p>Customer deleted successfully</p>";
+                }else{
+                    message = "<p>Customer not deleted</p>";
+                }
+                
+            }
+        }
+        try(PrintWriter out = response.getWriter()){
+            if(message.length()>4){
+                out.print(message);
+            }
+            out.println(getService().getStringCustomers());
+        }
         
         //request.setAttribute("message", "tasos");
         
-        List<Customer> list = getService().getCustomers();
-        request.setAttribute("customers",list);
-        getServletContext().getRequestDispatcher("/WEB-INF/Customer2.jsp").forward(request, response);
+//        List<Customer> list = getService().getCustomers();
+//        request.setAttribute("customers",list);
+//        getServletContext().getRequestDispatcher("/WEB-INF/Customer2.jsp").forward(request, response);
+        
 //        RequestDispatcher view=request.getRequestDispatcher("/WEB-INF/Customer.jsp");
 //        view.forward(request,response);
         

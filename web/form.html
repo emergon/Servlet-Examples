@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Input Form</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="FormServlet" method="GET">
+            <h5>This is a form to pass data</h5>
+            <table>
+                <caption>Input Data</caption>
+                <tr>
+                    <td>Code:</td>
+                    <td><input type="text" name="ccode" size="10"></td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" name="cname" size="10"></td>
+                </tr>
+            </table>
+            <br/>
+            <h5>Select your favorite foods</h5>
+            <input type="checkbox" name="foods" value="Apple">Apple
+            <input type="checkbox" name="foods" value="Orange">Orange
+            <input type="checkbox" name="foods" value="Lemon">Lemon
+
+            <p><input type="submit" value="Send"></p>
+
+
+        </form>
+    </body>
+</html>
