@@ -8,6 +8,7 @@ package controllers;
 import entities.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import services.CustomerService;
 public class InsertCustomer extends HttpServlet {
 
     CustomerService service;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -61,9 +63,13 @@ public class InsertCustomer extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("code is " + request.getParameter("ccode"));
-        out.println("name is " + request.getParameter("cname"));
+
+        try (PrintWriter out = response.getWriter()) {
+            out.print(getService().getCustomerInsertForm());
+        }
+
+        //out.println("code is " + request.getParameter("ccode"));
+        //out.println("name is " + request.getParameter("cname"));
     }
 
     /**
@@ -77,36 +83,29 @@ public class InsertCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         Customer c = new Customer();
         c.setCcode(Integer.parseInt(request.getParameter("ccode")));
         c.setCname(request.getParameter("cname"));
-        response.setContentType("text/html;UTF-8");
-        try(PrintWriter out = response.getWriter()){
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Insert Customer</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CustomerServlet at " + request.getContextPath() + "</h1>");
-            if(getService().insert(c)){
+        try (PrintWriter out = response.getWriter()) {
+            if (getService().insert(c)) {
                 out.println("<h2>Customer inserted successfully</h2>");
-            }else{
+                RequestDispatcher dispatcher = request.getRequestDispatcher("Customers");
+                dispatcher.include(request, response);
+            } else {
                 out.println("<h2>Customer insertion failed</h2>");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("Customers");
+                dispatcher.include(request, response);
             }
-            out.println("<p><a href='InsertCustomer.html'>Go Back</a></p>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
-    public CustomerService getService(){
-        if(service == null){
+    public CustomerService getService() {
+        if (service == null) {
             service = new CustomerService();
         }
         return service;
     }
+
     /**
      * Returns a short description of the servlet.
      *

@@ -7,10 +7,13 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.CustomerService;
 
 /**
  *
@@ -18,31 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DeleteCustomer extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteCustomer</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeleteCustomer at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+    CustomerService service;
+
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -56,7 +37,27 @@ public class DeleteCustomer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Enumeration<String> en = request.getParameterNames();
+        while (en.hasMoreElements()) {
+            String param = en.nextElement();
+            String value = request.getParameter(param);
+            if (param.equals("method") && value.equals("delete")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                boolean deleted = getService().deleteCustomerById(id);
+                try (PrintWriter out = response.getWriter()) {
+                    if (deleted) {
+                        out.println("<h2>Customer deleted successfully</h2>");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("Customers");
+                        dispatcher.include(request, response);
+
+                    } else {
+                        out.println("<h2>Customer deletion failed</h2>");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("Customers");
+                        dispatcher.include(request, response);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -70,7 +71,7 @@ public class DeleteCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**
@@ -83,4 +84,10 @@ public class DeleteCustomer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public CustomerService getService() {
+        if (service == null) {
+            service = new CustomerService();
+        }
+        return service;
+    }
 }

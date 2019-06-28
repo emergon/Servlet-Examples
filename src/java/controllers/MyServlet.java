@@ -81,7 +81,7 @@ public class MyServlet implements Servlet {//extends HttpServlet {
         PrintWriter out = res.getWriter();
         out.print("<html><body>");
         out.print("<b>hello simple servlet</b>");
-        out.println("<p><a href='/ServletExamples'>Go Home</a></p>");
+        out.println("<p><a href='home.html'>Go Home</a></p>");
         out.print("</body></html>");
         
     }

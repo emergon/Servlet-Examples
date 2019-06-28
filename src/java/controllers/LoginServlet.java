@@ -82,11 +82,13 @@ public class LoginServlet extends HttpServlet {
                 //redirect sends back to the client the path and the client makes a new request to this path.
                 //The client first send a POST request, but with redirect, a new GET request will be sent.
                 //https://blog.frankel.ch/refining-redirect-semantics-servlet-api/
-                response.sendRedirect(request.getContextPath() + "/Customers");
+                response.sendRedirect(request.getContextPath() + "/home.html");
             } else {
                 int numOfTries = (int) request.getAttribute("tries");
-                out.println("Please enter the correct credentials");
-                out.print("<p>You have " + numOfTries + " failed logins</p>");
+                //out.println("Please enter the correct credentials");
+                out.println("<p>Come on Maria. You can do it.</p>"
+                        + "<p>You want a <b>hint</b>??? Do you like <b>pilates</b>?</p>");
+                //out.print("<p>You have " + numOfTries + " failed logins</p>");
                 //RequestDispatcher forwards/includes the request and response to other Servlet/HTML page/JSP.
                 //Then the new path is sent back to the client.
                 //https://www.javatpoint.com/requestdispatcher-in-servlet

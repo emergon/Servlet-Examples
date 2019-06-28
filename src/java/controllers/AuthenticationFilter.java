@@ -102,7 +102,7 @@ public class AuthenticationFilter implements Filter {
             throws IOException, ServletException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        if (!username.equals("tasos") || !password.equals("1234")) {
+        if (!username.equals("maria") || !password.equals("matpilates90")) {
             numOfTries++;
             request.setAttribute("passed", false);
         }else{

@@ -25,7 +25,7 @@ public class MyGenericServlet extends GenericServlet {
         PrintWriter out = res.getWriter();
         out.println("<html><body>");
         out.println("<h3>This is Second Servlet</h3>");
-        out.println("<p><a href='/ServletExamples'>Go Home</a></p>");
+        out.println("<p><a href='home.html'>Go Home</a></p>");
         out.println("</html></body>");
     }
 

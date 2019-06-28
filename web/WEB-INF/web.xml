@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>login.html</welcome-file>
     </welcome-file-list>
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
@@ -47,6 +47,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>controllers.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewCustomer</servlet-name>
+        <servlet-class>controllers.ViewCustomer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyServlet</servlet-name>
         <url-pattern>/MyServlet</url-pattern>
@@ -82,6 +86,10 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCustomer</servlet-name>
+        <url-pattern>/ViewCustomer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
