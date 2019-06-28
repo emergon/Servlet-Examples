@@ -5,18 +5,23 @@
  */
 package controllers;
 
+import entities.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.CustomerService;
 
 /**
  *
  * @author tasos
  */
 public class UpdateCustomer extends HttpServlet {
+
+    private CustomerService service;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +40,7 @@ public class UpdateCustomer extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateCustomer</title>");            
+            out.println("<title>Servlet UpdateCustomer</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateCustomer at " + request.getContextPath() + "</h1>");
@@ -56,7 +61,14 @@ public class UpdateCustomer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String value = request.getParameter("method");
+        int code = Integer.parseInt(request.getParameter("id"));
+        if (value.equals("update")) {
+            try (PrintWriter out = response.getWriter()) {
+                out.print(getService().getCustomerUpdateFormById(code));
+            }
+
+        }
     }
 
     /**
@@ -70,7 +82,20 @@ public class UpdateCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Customer c = new Customer(Integer.parseInt(request.getParameter("ccode")), request.getParameter("cname"));
+        boolean updated = getService().saveCustomer(c);
+        if (updated) {
+            try (PrintWriter out = response.getWriter()) {
+                out.print("<p>Customer updated successfully</p>");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("index.html");
+                dispatcher.include(request, response);
+            }
+        }else{
+            try(PrintWriter out = response.getWriter()){
+                out.print("<p>Customer update failed</p>");
+            }
+        }
+
     }
 
     /**
@@ -83,4 +108,10 @@ public class UpdateCustomer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private CustomerService getService() {
+        if (service == null) {
+            service = new CustomerService();
+        }
+        return service;
+    }
 }

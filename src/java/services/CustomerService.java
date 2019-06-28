@@ -24,6 +24,17 @@ public class CustomerService {
         return cdao.getCustomers();
     }
     
+    public String getCustomerUpdateFormById(int ccode){
+        CustomerDao cdao = new CustomerDao();
+        Customer c = cdao.getCustomerById(ccode);
+        StringBuilder builder = new StringBuilder();
+        builder.append(getHeader("Edit Customer"));
+        builder.append(getCustomerUpdateForm(c));
+        builder.append("</body>")
+                .append("</html>");
+        return builder.toString();
+    }
+    
     public boolean insert(Customer c){
         CustomerDao cdao = new CustomerDao();
         if(cdao.insertCustomer(c)){
@@ -37,6 +48,11 @@ public class CustomerService {
 //        builder.append("</body>")
 //                .append("</html>");
 //        return builder.toString();
+    }
+    
+    public boolean saveCustomer(Customer c){
+        CustomerDao cdao = new CustomerDao();
+        return cdao.updateCustomer(c);
     }
     
     public boolean deleteCustomerById(int id){
@@ -54,8 +70,19 @@ public class CustomerService {
                 .append("</html>");
         return builder.toString();
     }
+    
+    private String getCustomerUpdateForm(Customer c){
+        StringBuilder builder = new StringBuilder();
+        builder.append("<form action='UpdateCustomer' method='POST'>");
+        builder.append("<p><b>Ccode:</b>").append("<input type='text' name='ccode' readonly value='").append(c.getCcode()).append("'></p>")
+                .append("<p><b>Cname:</b>").append("<input type='text' name='cname' value='")
+                .append(c.getCname()).append("'></p>");
+        builder.append("<input type='submit' value='Save'>");
+        builder.append("</form>");
+        return builder.toString();
+    }
 
-    public String getTable(String title, List<Customer> customers) {
+    private String getTable(String title, List<Customer> customers) {
         StringBuilder builder = new StringBuilder();
         builder.append("<table border=\"1\">")
                 .append("<caption>")
@@ -65,13 +92,14 @@ public class CustomerService {
             builder.append("<tr>")
                     .append("<td>").append(c.getCcode()).append("</td>")
                     .append("<td>").append(c.getCname()).append("</td>")
+                    .append("<td>").append("<a href='http://localhost:8080/ServletExamples/UpdateCustomer?method=update&id=").append(c.getCcode()).append("'>Edit</a>").append("</td>")
                     .append("<td>").append("<a href='http://localhost:8080/ServletExamples/Customers?method=delete&id=").append(c.getCcode()).append("'>Delete</a>").append("</td>")
                     .append("</tr>");
         }
         return builder.toString();
     }
     
-    public String getHeader(String title){
+    private String getHeader(String title){
         StringBuilder builder = new StringBuilder();
         builder.append("<!DOCTYPE html>")
                 .append("<html>")

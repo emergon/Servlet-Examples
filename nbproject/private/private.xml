@@ -2,6 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/src/java/controllers/UpdateCustomer.java</file>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/web/WEB-INF/web.xml</file>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/src/java/dao/CustomerDao.java</file>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/src/java/controllers/LoginServlet.java</file>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/src/java/controllers/CustomerServlet.java</file>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/src/java/services/CustomerService.java</file>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/src/java/controllers/FormServlet.java</file>
+            <file>file:/home/anastasios/NetBeansProjects/ServletExamples/src/java/controllers/AuthenticationFilter.java</file>
+        </group>
     </open-files>
 </project-private>

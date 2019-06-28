@@ -39,7 +39,7 @@ public class FormServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FormServlet</title>");            
+            out.println("<title>Servlet FormServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet FormServlet at " + request.getContextPath() + "</h1>");
@@ -62,26 +62,26 @@ public class FormServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        try(PrintWriter out = response.getWriter()){
+        try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>FormServlet</title>");            
+            out.println("<title>FormServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet FormServlet at " + request.getContextPath() + "</h1>");
-            out.print("<h3>Get Parameters</h3>");
-            out.print("<ul>");
-            out.print(getParameterValue(request.getParameter("ccode")));
-            out.print(getParameterValue(request.getParameter("cname")));
-            out.print("</ul>");
-            out.print(getMap(request.getParameterMap()));
-            out.print(getEnumeration(request.getParameterNames()));
-            out.print(getFoods(request.getParameterValues("foods")));
+            out.print("<table border=\"1px\" align=\"center\">");
+            out.print("<thead>\n <tr>\n <td>Parameters</td>\n <td>Values</td>\n </tr>\n </thead>");
+            out.print(getEnumeration(request));
+            out.print("</table>");
+            
+            //out.print(getMap(request.getParameterMap()));
+            
+            //out.print(getFoods(request.getParameterValues("foods")));
             out.println("<p><a href='form.html'>Go Back</a></p>");
             out.println("</body>");
             out.println("</html>");
-            
+
         }
     }
 
@@ -109,29 +109,29 @@ public class FormServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String getFoods(String[] foods){
+    private String getFoods(String[] foods) {
         StringBuilder builder = new StringBuilder();
         builder.append("<h3>Foods Selected</h3>");
         builder.append("<ul>");
-        for(String food:foods){
+        for (String food : foods) {
             builder.append("<li>").append(food).append("</li>");
         }
         builder.append("</ul>");
         return builder.toString();
     }
-    
-    private String getMap(Map<String,String[]> map){
+
+    private String getMap(Map<String, String[]> map) {
         StringBuilder builder = new StringBuilder();
         builder.append("<h3>Map details</h3>");
         builder.append("<ul>");
         builder.append("<li>Size of map is ").append(map.size()).append("</li>");
-        Iterator<Entry<String,String[]>> it = map.entrySet().iterator();
+        Iterator<Entry<String, String[]>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, String[]> entry = it.next();
             builder.append("<li><b>Key</b>:")
                     .append(entry.getKey())
                     .append(" with values:");
-            for(String s:entry.getValue()){
+            for (String s : entry.getValue()) {
                 builder.append(s).append(",");
             }
             builder.append("</li>");
@@ -139,20 +139,45 @@ public class FormServlet extends HttpServlet {
         builder.append("</ul>");
         return builder.toString();
     }
-    
-    private String getEnumeration(Enumeration<String> en){
+
+    private String getEnumeration(HttpServletRequest req) {
         StringBuilder builder = new StringBuilder();
-        builder.append("<h3>Enumeration values</h3>");
-        builder.append("<ul>");
-        while(en.hasMoreElements()){
-            String element = en.nextElement();
-            builder.append("<li><b>element</b>:").append(element).append("</li>");
+        Enumeration<String> parameters = req.getParameterNames();
+        while(parameters.hasMoreElements()){
+            String param = parameters.nextElement();
+            builder.append("<tr>");
+            builder.append("<td>").append(param).append("</td>");
+            String [] values = req.getParameterValues(param);
+            builder.append("<td>");
+            if(values.length>1){
+                builder.append("<ul>");
+                for(String value:values){
+                    builder.append("<li>").append(value).append("</li>");
+                }
+                builder.append("</ul>");
+            }else{
+                if(values[0].length()==0){
+                    builder.append("Value is empty");
+                }else{
+                    builder.append(values[0]);
+                }
+                
+            }
+            builder.append("</td>");
+            builder.append("</tr>");
         }
-        builder.append("</ul>");
+//        builder.append("<h3>Enumeration values</h3>");
+//        builder.append("<ul>");
+//        while (en.hasMoreElements()) {
+//            String element = en.nextElement();
+//            
+//            builder.append("<li><b>element</b>:").append(element).append("</li>");
+//        }
+//        builder.append("</ul>");
         return builder.toString();
     }
-    
-    private String getParameterValue(String value){
+
+    private String getParameterValue(String value) {
         StringBuilder builder = new StringBuilder();
         builder.append("<li>").append(value).append("</li>");
         return builder.toString();

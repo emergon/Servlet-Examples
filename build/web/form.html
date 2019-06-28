@@ -12,26 +12,47 @@ and open the template in the editor.
     </head>
     <body>
         <form action="FormServlet" method="GET">
-            <h5>This is a form to pass data</h5>
+            <h3>Order your pizza</h3>
+            <b>Your Name</b>&nbsp;
+            <input type="text" name="name">
+            <br/><br/>
+            <b>Date</b>&nbsp;
+            <input type="date" name="date">
+            <b>Choose Size</b>&nbsp;
+            <select name="size">
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+            </select>
+            <br/><br/>
+            <b>Bread</b>&nbsp;
+            <input type="radio" name="bread" value="Thin">Thin
+            <input type="radio" name="bread" value="Normal">Normal
+            <input type="radio" name="bread" value="Fat">Fat
+            <br/><br/>
+            <b>Ingredients</b>&nbsp;
             <table>
-                <caption>Input Data</caption>
                 <tr>
-                    <td>Code:</td>
-                    <td><input type="text" name="ccode" size="10"></td>
+                    <td><input type="checkbox" name="ingredient" value="Cheese">Cheese</td>
+                    <td><input type="checkbox" name="ingredient" value="Tomatoe">Tomatoe</td>
+                    <td><input type="checkbox" name="ingredient" value="Zambon">Zambon<br/></td>
                 </tr>
                 <tr>
-                    <td>Name:</td>
-                    <td><input type="text" name="cname" size="10"></td>
+                    <td><input type="checkbox" name="ingredient" value="Ham">Ham</td>
+                    <td><input type="checkbox" name="ingredient" value="BBQ-sauce">BBQ-sauce</td>
+                    <td><input type="checkbox" name="ingredient" value="Bacon">Bacon</td>
                 </tr>
             </table>
+            <br/><br/>
+            <b>Address</b>&nbsp;<textarea name="address" rows="3" cols="40"></textarea>
+            <br/><br/>
+            <b>Card Type</b>&nbsp;<input type="radio" name="cardType" value="Visa">Visa
+            <input type="radio" name="cardType" value="MasterCard">MasterCard
+            <input type="radio" name="cardType" value="Maestro">Maestro
+            <br/><br/>
+            <b>Card Number</b>&nbsp;<input type="password" name="cardNumber">
             <br/>
-            <h5>Select your favorite foods</h5>
-            <input type="checkbox" name="foods" value="Apple">Apple
-            <input type="checkbox" name="foods" value="Orange">Orange
-            <input type="checkbox" name="foods" value="Lemon">Lemon
-
             <p><input type="submit" value="Send"></p>
-
 
         </form>
     </body>

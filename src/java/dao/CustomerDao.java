@@ -101,15 +101,18 @@ public class CustomerDao {
         return inserted;
     }
 
-    public void updateCustomer(Customer c, String newName) {
+    public boolean updateCustomer(Customer c) {
+        boolean updated=false;
         try {
             PreparedStatement pst = getConnection().prepareStatement(updateCustomer);
-            pst.setString(1, newName);
+            pst.setString(1, c.getCname());
             pst.setInt(2, c.getCcode());
             int result = pst.executeUpdate();
             if (result > 0) {
+                updated = true;
                 System.out.println("Customer updated successfully");
             } else {
+                updated = false;
                 System.out.println("Customer not updated");
             }
             pst.close();
@@ -117,6 +120,7 @@ public class CustomerDao {
         } catch (SQLException ex) {
             Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return updated;
     }
 
     public void deleteCustomer(Customer c) {

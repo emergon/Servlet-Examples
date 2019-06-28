@@ -5,11 +5,9 @@
  */
 package controllers;
 
-import dao.CustomerDao;
-import entities.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author tasos
+ * @author anastasios
  */
-public class MyHttpServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,13 +36,12 @@ public class MyHttpServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ThirdClass</title>");            
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ThirdClass at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-            
         }
     }
 
@@ -60,30 +57,7 @@ public class MyHttpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        CustomerDao cdao = new CustomerDao();
-        List<Customer> list = cdao.getCustomers();
-        
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>HttpServlet</title>");
-        out.println("</head>");
-        out.println("<body>");
-        for(Customer c:list){
-            //System.out.println(c.getCcode()+" "+c.getCname());
-            out.print("<p>");
-            out.print(c.getCcode()+" "+c.getCname());
-            out.print("</p>");
-        }
-        out.println("<p><a href='/ServletExamples'>Go Home</a></p>");
-        out.println("</body>");
-        out.println("</html>");
-        
-        
-        
+
     }
 
     /**
@@ -97,7 +71,31 @@ public class MyHttpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+
+            //String username = request.getParameter("username");
+            //String password = request.getParameter("password");
+            //if(username.equals("tasos")&&password.equals("1234")){
+            boolean passed = (boolean) (request.getAttribute("passed"));
+            if (passed) {
+                //redirect sends back to the client the path and the client makes a new request to this path.
+                //The client first send a POST request, but with redirect, a new GET request will be sent.
+                //https://blog.frankel.ch/refining-redirect-semantics-servlet-api/
+                response.sendRedirect(request.getContextPath() + "/Customers");
+            } else {
+                int numOfTries = (int) request.getAttribute("tries");
+                out.println("Please enter the correct credentials");
+                out.print("<p>You have " + numOfTries + " failed logins</p>");
+                //RequestDispatcher forwards/includes the request and response to other Servlet/HTML page/JSP.
+                //Then the new path is sent back to the client.
+                //https://www.javatpoint.com/requestdispatcher-in-servlet
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/login.html");
+                dispatcher.include(request, response);
+
+            }
+
+        }
     }
 
     /**

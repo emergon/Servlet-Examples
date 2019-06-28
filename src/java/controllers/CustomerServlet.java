@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import services.CustomerService;
 
 /**
@@ -20,7 +21,7 @@ import services.CustomerService;
  * @author tasos
  */
 public class CustomerServlet extends HttpServlet {
-
+    private long time;
     CustomerService service;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -77,7 +78,22 @@ public class CustomerServlet extends HttpServlet {
                 
             }
         }
+        
         try(PrintWriter out = response.getWriter()){
+            //Get The Session from the user and count the inactive time
+            HttpSession session = request.getSession();
+            String sessionId = session.getId();
+            if(time==0){
+                time = session.getCreationTime();
+            }
+            long lastAccessedTime = session.getLastAccessedTime();
+            long secondsInactive = (lastAccessedTime - time)/1000;
+            time = lastAccessedTime;
+            int minutes = session.getMaxInactiveInterval()/60;
+            out.print("<p>The session id is:<b>"+sessionId+"</b></p>");
+            out.print("<p>The minutes to end the session are:<b>"+minutes+"</b></p>");
+            out.print("<p>Session was inactive for <b>"+secondsInactive+"</b> seconds</p>");
+            //Finished counting the inactive time for a user.
             if(message.length()>4){
                 out.print(message);
             }
